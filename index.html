@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airwars Evidence Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Airwars Evidence Editor</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="fileUpload">Open File:</label>
+                <input type="file" id="fileUpload" accept=".awe" />
+            </div>
+
+            <div class="control-group">
+                <label for="imageUpload">Upload Image (JPEG):</label>
+                <input type="file" id="imageUpload" accept=".jpg,.jpeg" />
+            </div>
+
+            <div class="control-group">
+                <label>Annotation Mode:</label>
+                <button id="satelliteModeBtn" class="tool-btn" disabled>Satellite Image Mode</button>
+                <button id="groundModeBtn" class="tool-btn" disabled>Ground Level Image Mode</button>
+            </div>
+
+            <div class="control-group">
+                <label>Annotation Tools:</label>
+                <button id="rectangleBtn" class="tool-btn" disabled>Rectangle</button>
+                <button id="polygonBtn" class="tool-btn" disabled>Polygon</button>
+                <button id="selectBtn" class="tool-btn" disabled>Select</button>
+                <button id="labelBtn" class="tool-btn" disabled>Label</button>
+                <button id="exactLocationBtn" class="tool-btn" disabled>Exact Location</button>
+                <button id="exactLocationGlowBtn" class="tool-btn" disabled>Glow On</button>
+                <button id="clearBtn" class="tool-btn clear">Clear All</button>
+            </div>
+
+            <div class="control-group">
+                <label>Rectangle Defaults:</label>
+                <label class="checkbox-label"><input type="checkbox" id="defaultDashed"> Dashed</label>
+                <label for="defaultLabelSide">Label side:</label>
+                <select id="defaultLabelSide">
+                    <option value="right">Right</option>
+                    <option value="left">Left</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>Polygon Defaults:</label>
+                <label class="checkbox-label"><input type="checkbox" id="polygonDashCheckbox"> Dashed</label>
+            </div>
+
+            <div class="control-group">
+                <label for="caseCodeInput">Case Code:</label>
+                <input type="text" id="caseCodeInput" placeholder="Enter case code" />
+                <label for="sourceInput">Source:</label>
+                <input type="text" id="sourceInput" placeholder="Enter source" />
+                <label for="folderPathDisplay">Download Folder:</label>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="folderPathDisplay" placeholder="No folder selected" readonly style="flex: 1;" />
+                    <button id="chooseFolderBtn" class="tool-btn">Choose Folder</button>
+                </div>
+                <p id="filenamePreview" style="font-size: 0.9em; color: #666; margin-top: 5px;">Filename: case_source.jpg</p>
+            </div>
+
+            <div class="control-group shortcuts-panel">
+                <h4>Keyboard Shortcuts</h4>
+                <div class="shortcut-grid">
+                    <div><strong>File Actions</strong></div>
+                    <div><strong>    </strong></div>
+                    <div><strong>Tools</strong></div>
+                    <div><strong>    </strong></div>
+                    <div><strong>    </strong></div>
+                    <div>N = Upload Image</div>
+                    <div>Shift+N = Open Edit File</div>
+                    <div>R = Rectangle</div>
+                    <div>P = Polygon</div>
+                    <div>S = Select</div>
+                    <div>Ctrl+S = Download Image</div>
+                    <div>Shift+S = Download Edit File</div>
+                    <div>L = Label</div>
+                    <div>G = Toggle Glow</div>
+                    <div>E = Exact Location</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <button id="downloadBtn" class="tool-btn download">Download Image</button>
+                <button id="downloadEditFileBtn" class="tool-btn download">Download Edit File</button>
+            </div>
+
+            <div class="info-text">
+                <p id="toolInfo" class="info"></p>
+                <div id="editPanel" style="display: none; margin-top: 10px;">
+                    <div class="control-group">
+                        <label for="editLabelInput">Label / Text:</label>
+                        <input type="text" id="editLabelInput" maxlength="100" placeholder="Edit text" />
+                    </div>
+                    <div class="control-group" id="labelSideGroup">
+                        <label for="labelSide">Label side:</label>
+                        <select id="labelSide">
+                            <option value="right">Right</option>
+                            <option value="left">Left</option>
+                        </select>
+                    </div>
+                    <div class="control-group" id="dashedGroup">
+                        <label class="checkbox-label"><input type="checkbox" id="dashedCheckbox"> Dashed</label>
+                    </div>
+                    <div class="control-group">
+                        <button id="deleteBtn" class="tool-btn clear">Delete</button>
+                        <button id="deselectBtn" class="tool-btn">Deselect</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
